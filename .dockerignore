@@ -1,0 +1,24 @@
+# Python 캐시 폴더
+__pycache__/
+
+# Python 캐시 파일
+*.pyc
+
+# 가상환경
+.venv/
+
+# 환경변수
+.env
+
+# VSCode settings
+.vscode/
+
+# utility
+*.log
+
+# git 관련
+.git/
+.gitignore
+
+# README
+README.md
