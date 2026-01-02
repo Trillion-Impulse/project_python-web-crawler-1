@@ -7,6 +7,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from urllib.parse import urljoin
+import os
 import pandas as pd
 import time
 from datetime import datetime
@@ -98,14 +99,20 @@ def crawler_1_run(config: dict) -> None:
     # CSV로 저장
     try:
         logger.info("CSV로 저장 시작")
+
+        # output 디렉토리 생성
+        output_dir = os.getenv("OUTPUT_DIR", "./output")
+        os.makedirs(output_dir, exist_ok=True)
+
         # csv 파일로 저장
         df = pd.DataFrame(news_list)
 
         now = datetime.now().strftime("%Y%m%d_%H%M%S")
         timestamp = int(time.time())
         filename = f"news_list_{now}_{timestamp}.csv"
+        filepath = os.path.join(output_dir, filename)
 
-        df.to_csv(filename, index=False, encoding="utf-8-sig")
+        df.to_csv(filepath, index=False, encoding="utf-8-sig")
     except Exception as e:
         logger.error("CSV로 저장 실패:", exc_info=True)
         raise RuntimeError("CSV로 저장 실패") from e
