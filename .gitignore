@@ -15,3 +15,7 @@ __pycache__/
 
 # utility
 *.log
+
+# 테스트 결과물
+output/
+*.csv
