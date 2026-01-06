@@ -1,6 +1,12 @@
 # 기반 이미지
 FROM python:3.11-slim
 
+# 빌드 시점 ARG (빌드 시점에만 존재, 외부에서 전달가능)
+ARG LOG_LEVEL=INFO
+
+# 컨테이너 런타임 ENV (빌드 시점의 ARG를 받아서 컨테이너 내부에서 사용)
+ENV LOG_LEVEL=${LOG_LEVEL}
+
 # 시스템 패키지 설치 (Chrome 실행에 필수)
 RUN apt-get update && apt-get install -y \
     wget \
