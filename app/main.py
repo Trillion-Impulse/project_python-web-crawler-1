@@ -9,6 +9,7 @@ def main() -> None:
     - 환경변수 로드
     - 환경변수 검증
     - 크롤러 실행
+    - 예외 발생시 로깅 및 raise
     """
 
     logger = get_logger(__name__)
@@ -23,7 +24,7 @@ def main() -> None:
         validate_crawler_configs(crawler_name) # 환경변수 값 검증
     except Exception:
         logger.error("환경변수 로드 및 검증 오류", exc_info=True)
-        return
+        raise # 예외를 진입점으로 전파
     else:
         logger.info("환경변수 로드 및 검증 성공")
     
@@ -33,11 +34,18 @@ def main() -> None:
         crawler_1_run(config)
     except Exception:
         logger.error(f"{crawler_name} 실행 오류", exc_info=True)
-        return
+        raise # 예외를 진입점으로 전파
     else:
         logger.info(f"{crawler_name} 실행 성공")
     
     logger.info("애플리케이션 실행 종료")
 
 if __name__=="__main__":
-    main()
+    import sys
+
+    try:
+        main()
+    except Exception:
+        sys.exit(1)
+    else:
+        sys.exit(0)
