@@ -42,8 +42,8 @@ jobs:
           file: ./Dockerfile # Dockerfile 경로
           push: true # 빌드 후 GHCR로 푸시
           tags: |
-            ghcr.io/${{ github.repository | lower }}/crawler_1:latest
-            ghcr.io/${{ github.repository | lower }}/crawler_1:${{ github.sha }}
+            ghcr.io/${{ github.repository }}/crawler_1:latest
+            ghcr.io/${{ github.repository }}/crawler_1:${{ github.sha }}
           build-args: |
             LOG_LEVEL=${{ env.LOG_LEVEL }}
       
@@ -58,7 +58,7 @@ jobs:
             -e CRAWLER_1_URL="${{ secrets.CRAWLER_1_URL }}" \
             -e OUTPUT_DIR="/output" \
             -v ${{ github.workspace }}/output:/output \
-            ghcr.io/${{ github.repository | lower }}/crawler_1:latest
+            ghcr.io/${{ github.repository }}/crawler_1:latest
 
       # Artifact 업로드
       - name: Upload CSV to Artifact
