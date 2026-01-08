@@ -62,7 +62,7 @@ jobs:
 
       # Artifact 업로드
       - name: Upload CSV to Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: crawler_1-output
           path: output/*.csv
