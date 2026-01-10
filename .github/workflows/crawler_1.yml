@@ -3,7 +3,7 @@ name: run crawler_1
 on:
   # 주기적 실행 매일 UTC 00:00 (한국 09:00)
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '59 23 * * *'
   # 수동 실행
   workflow_dispatch:
 
