@@ -84,3 +84,77 @@ project_python-web-crawler-1/
 └─ README.md                   # 프로젝트 설명 및 트리 구조
 
 ```
+
+<br>
+
+## 프로젝트 구조 단위별 상세
+
+### app/main.py
+- 애플리케이션 진입점
+- 역할
+    1. 로거 초기화
+    1. 환경변수 로드 및 검증
+    1. 크롤러 실행
+    1. 예외 발생 시 로깅 후 종료코드 반환
+
+### app/config/config.py
+- 환경변수 관리
+- 역할
+    - `.env` 로드
+    - 외부 접근 함수
+        - 환경변수 키 검증 후 반환
+    - 환경변수 값 검증
+
+### app/crawler/crawler_1.py
+- 크롤러 구현
+- 역할
+    - Selenium + Chrome headless 사용
+    - HTML 요청
+    - BeautifulSoup으로 HTML 파싱
+    - 데이터 추출
+    - CSV 저장
+        - 환경변수 OUTPUT_DIR 사용 경로 지정 가능
+        - 기본 경로: ./output
+    - 로깅
+        - 실행 단계별 로그 출력
+
+### app/utils/logger.py
+- 로그 관리
+- 역할
+    - 환경변수 LOG_LEVEL 기반 로거 생성
+    - 핸들러 중복 검증
+    - 로그 출력 포맷 지정
+
+### Dockerfile
+- 도커 파일 관리
+- 역할
+    - Python 3.11 기반 컨테이너 생성
+    - ARG로 빌드 시점에 LOG_LEVEL 지정 가능
+    - ENV로 빌드 시점의 LOG_LEVEL 적용
+    - Chrome + Selenium 실행 환경 구성
+    - 의존성 파일 복사 및 설치
+    - 소스코드 복사
+    - 애플리케이션 진입점을 통해 실행
+        - `python -m app.main`
+
+### .dockerignore
+- 컨테이너 이미지 빌드시 불필요한 항목 제외
+
+### .gitignore
+- Git 커밋에 불필요한 항목 제외
+
+### .github/workflows/crawler_1.yml
+- GitHub Actions Workflow
+- 역할
+    - 스케줄 실행
+    - 수동 실행
+    - Docker 이미지 빌드
+    - GHCR 푸시
+    - output 전용 디렉토리 생성
+    - Docker 컨테이너 실행
+        - Volume 마운트 사용
+            - 호스트(runner VM)의 output 디렉토리와 컨테이너 내부 output 디렉토리 연결
+    - 호스트의 output/*.csv를 Artifact에 업로드
+- 환경 변수
+    - GitHub Secret 기반 URL 전달
+    - LOG_LEVEL 설정
