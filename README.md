@@ -44,3 +44,43 @@ A Python web crawler, dockerized and scheduled with cron
 - 보안
     - 민감 정보는 `.env`(로컬), `GitHub Secret`으로 관리
     - Git과 Docker 관리(`.gitignore`, `.dockerignore`)
+
+<br>
+
+---
+
+<br>
+
+# 프로젝트 구조
+```
+project_python-web-crawler-1/
+│
+├─ app/
+│  ├─ __init__.py
+│  ├─ main.py                  # 애플리케이션 진입점 (컨테이너/로컬 실행)
+│  │
+│  ├─ crawler/
+│  │  ├─ __init__.py
+│  │  └─ crawler_1.py          # 크롤링 로직 구현
+│  │
+│  ├─ config/
+│  │  ├─ __init__.py
+│  │  └─ config.py             # 환경변수 로드, 검증 함수
+│  │
+│  └─ utils/
+│     ├─ __init__.py
+│     └─ logger.py             # LOG_LEVEL 기반 로거 생성 유틸
+│
+├─ .env                        # 로컬 개발용 환경변수 (Git 제외)
+├─ requirements.txt            # Python 패키지 의존성
+├─ Dockerfile                  # Docker 이미지 빌드 및 실행 정의
+├─ .dockerignore               # Docker 이미지 빌드 시 제외 파일
+├─ .gitignore                  # Git 커밋 제외 파일
+│
+├─ .github/
+│  └─ workflows/
+│     └─ crawler_1.yml         # GitHub Actions: 자동/수동 크롤러 실행 및 Artifact 업로드
+│
+└─ README.md                   # 프로젝트 설명 및 트리 구조
+
+```
