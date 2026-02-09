@@ -3,7 +3,7 @@ name: run crawler_1
 on:
   # 주기적 실행 매일 UTC 00:00 (한국 09:00)
   schedule:
-    - cron: '58 23 * * *'
+    - cron: '00 00 * * *'
   # 수동 실행
   workflow_dispatch:
 
@@ -18,6 +18,12 @@ jobs:
       LOG_LEVEL: INFO
 
     steps:
+      # UTC 시간과 runner의 트리거 시간 확인
+      - name: Check runner time
+        run: |
+          date -u
+          date
+
       # GitHub repo의 코드를 runner VM으로 복사
       - name: Checkout repository
         uses: actions/checkout@v4
